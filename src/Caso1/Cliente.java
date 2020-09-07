@@ -18,8 +18,8 @@ public class Cliente extends Thread{
 	public void run() {		
 		for(int i = 0; i<numMensajes; i++)
 		{
-			mensaje= new Mensaje();
-
+			mensaje= new Mensaje((int) (Math.random()*100));
+			buff.enviarMensaje(mensaje);
 
 		}
 	}
