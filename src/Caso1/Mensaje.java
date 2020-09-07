@@ -1,6 +1,7 @@
 package Caso1;
 
 public class Mensaje {
+
 	
 	private int mensaje;
 	
@@ -10,12 +11,12 @@ public class Mensaje {
 		this.mensaje = pMensaje; 
 		this.cliente = cliente;
 	}
-	
-	private int getContenido() {
+
+	public int getContenido() {
 		return this.mensaje; 
 	}
-	
-	private void responder() {
+
+	public void responder() {
 		mensaje ++;
 	}
 }

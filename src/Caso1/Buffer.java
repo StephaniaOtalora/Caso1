@@ -7,13 +7,15 @@ public class Buffer {
 	private ArrayList buff;
 	private int capacidad;
 	Object lleno, vacio;
+	private int clientesTotal; 
 
-	public Buffer(int capacidad)
+	public Buffer(int capacidad, int pTotales)
 	{
 		this.capacidad=capacidad;
 		buff= new ArrayList();
 		lleno= new Object ();
 		vacio= new Object ();
+		clientesTotal=pTotales; 
 	}
 	
 	public void enviarMensaje(Mensaje mensaje) {
@@ -36,6 +38,18 @@ public class Buffer {
 			vacio.notify();
 		}
 
+	}
+
+	public Mensaje responderMensaje() {
+		if (buff.size()!=0) {
+			Mensaje m = (Mensaje)buff.remove(0); 
+			m.responder();
+		}
+		return null;
+	}
+
+	public synchronized int darTotalClientes() {
+		return this.clientesTotal;
 	}
 
 }
