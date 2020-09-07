@@ -19,4 +19,8 @@ public class Mensaje {
 	public void responder() {
 		mensaje ++;
 	}
+	
+	public Cliente getCliente() {
+		return this.cliente; 
+	}
 }

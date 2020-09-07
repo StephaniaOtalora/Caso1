@@ -41,10 +41,17 @@ public class Buffer {
 	}
 
 	public Mensaje responderMensaje() {
-		if (buff.size()!=0) {
-			Mensaje m = (Mensaje)buff.remove(0); 
-			m.responder();
+		Mensaje m; 
+		synchronized(this) {
+			if (buff.size()!=0) {
+				m = (Mensaje)buff.remove(0); 
+				m.responder();
+				m.getCliente().notify();	
+				
+				lleno.notifyAll();
+			}
 		}
+		
 		return null;
 	}
 
