@@ -44,12 +44,17 @@ public class Buffer {
 		if (buff.size()!=0) {
 			Mensaje m = (Mensaje)buff.remove(0); 
 			m.responder();
+			
 		}
 		return null;
 	}
 
 	public synchronized int darTotalClientes() {
 		return this.clientesTotal;
+	}
+
+	public synchronized void terminoCliente() {
+		this.clientesTotal--;
 	}
 
 }

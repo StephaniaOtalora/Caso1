@@ -18,6 +18,8 @@ public class Cliente extends Thread{
 			buff.enviarMensaje(mensaje);
 
 		}
+		
+		buff.terminoCliente();
 	}
 
 }
