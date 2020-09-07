@@ -9,8 +9,9 @@ public class Servidor extends Thread{
 	}
 	
 	public void run() {
-		while(buff.darTotalClientes()) {
+		while(buff.darTotalClientes()>0) {
 			buff.responderMensaje();
+			yield(); 
 		}
 	}
 	
