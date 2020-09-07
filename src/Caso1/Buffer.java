@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Buffer {
 
-	private ArrayList buff	;
+	private ArrayList buff;
 	private int capacidad;
 	Object lleno, vacio;
 
@@ -15,6 +15,7 @@ public class Buffer {
 		lleno= new Object ();
 		vacio= new Object ();
 	}
+	
 	public void enviarMensaje(Mensaje mensaje) {
 		// TODO Auto-generated method stub
 		synchronized (lleno) {
@@ -33,7 +34,6 @@ public class Buffer {
 
 		synchronized (vacio) {
 			vacio.notify();
-
 		}
 
 	}

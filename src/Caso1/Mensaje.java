@@ -2,10 +2,13 @@ package Caso1;
 
 public class Mensaje {
 	
-	private int mensaje; 
+	private int mensaje;
 	
-	public Mensaje(int pMensaje) {
+	private Cliente cliente;
+	
+	public Mensaje(int pMensaje, Cliente cliente) {
 		this.mensaje = pMensaje; 
+		this.cliente = cliente;
 	}
 	
 	private int getContenido() {
