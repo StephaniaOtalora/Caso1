@@ -6,65 +6,64 @@ public class Buffer {
 
 	private ArrayList buff;
 	private int capacidad;
-	Object lleno, vacio;
-	private int clientesTotal; 
+	Object vacio,lleno ;
+	private int clientesTotal;
 
 	public Buffer(int capacidad, int pTotales)
 	{
 		this.capacidad=capacidad;
 		buff= new ArrayList();
-		lleno= new Object ();
+		lleno= new Object ();;
 		vacio= new Object ();
 		clientesTotal=pTotales; 
 	}
 
 	public void enviarMensaje(Mensaje mensaje) {
-		// TODO Auto-generated method stub
+
 		synchronized (lleno) {
 			while(buff.size()==capacidad)
 			{
 				try {
-					lleno.wait();
+					mensaje.wait();
 				} catch (Exception e) {}
 			}
-
 		}
 
 		synchronized (this) { 
-			buff.add(mensaje);
-		}
-
-		synchronized (mensaje) {
+			buff.add(mensaje);			
 			try {
 				mensaje.wait();
 			} catch (Exception e) {	}
+
 		}
-		
+
 		synchronized (vacio) {
 			try {
 				vacio.notify();
-			} catch (Exception e) {
-			}
+			} catch (Exception e) {	}
 		}
 
 	}
 
 	public Mensaje responderMensaje() {
-		Mensaje m =null; 
+		Mensaje m = null; 
+
+		synchronized (vacio) {
+			while(buff.size()==0)
+				try {
+					vacio.wait();
+				} catch (Exception e) {	}
+		}
+
 		synchronized(this) {
 			if (buff.size()!=0) {
 				m = (Mensaje)buff.remove(0); 
 				m.responder();
 				System.out.println("Cliente: "+m.getCliente().getIdf()+" respuesta: "+m.getContenido());
-				m.notify();
-				//lleno.notify();
+				Cliente c= m.getCliente();
+				c.notify();
 			}
 		}
-
-		synchronized(lleno)
-		{ lleno.notifyAll();}
-
-
 		return m;
 	}
 
