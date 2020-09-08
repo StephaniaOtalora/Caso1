@@ -16,9 +16,10 @@ public class Cliente extends Thread{
 	public void run() {		
 		for(int i = 0; i<numMensajes; i++)
 		{
-			Mensaje mensaje= new Mensaje((int) (Math.random()*100), this);
+			Mensaje mensaje= new Mensaje((int) (Math.random()*100+1), this);
 			System.out.println("Cliente: "+id+" mensaje: "+mensaje.getContenido());
 			buff.enviarMensaje(mensaje);
+			System.out.println("Salio notify");
 
 		}
 		

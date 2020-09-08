@@ -16,8 +16,7 @@ public class Main {
 		
 		for(int i=0; i<pTotales;i++)
 		{
-			int numMensajes = (int) (Math.random()*10);
-			System.out.println(numMensajes);
+			int numMensajes = (int) (Math.random()*10+1);
 			Cliente c = new Cliente(numMensajes, buffer, i);
 			c.start();
 		}

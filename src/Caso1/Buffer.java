@@ -31,32 +31,38 @@ public class Buffer {
 		}
 
 		synchronized (this) { 
-			buff.add(mensaje);			
+			buff.add(mensaje);
 		}
+
+		synchronized (mensaje) {
+			try {
+				mensaje.wait();
+			} catch (Exception e) {	}
+		}
+		
 		synchronized (vacio) {
 			try {
-				vacio.wait();
+				vacio.notify();
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 
 	}
 
 	public Mensaje responderMensaje() {
-		Mensaje m = null; 
+		Mensaje m =null; 
 		synchronized(this) {
 			if (buff.size()!=0) {
 				m = (Mensaje)buff.remove(0); 
 				m.responder();
-				System.out.println("Cliente: "+m.getCliente().getIdf()+" respuesta"+m.getContenido());
-				m.getCliente().notify();	
+				System.out.println("Cliente: "+m.getCliente().getIdf()+" respuesta: "+m.getContenido());
+				m.notify();
 				//lleno.notify();
 			}
 		}
-		
-//		synchronized(lleno)
-//		{ lleno.notifyAll();}
+
+		synchronized(lleno)
+		{ lleno.notifyAll();}
 
 
 		return m;
