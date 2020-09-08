@@ -17,7 +17,7 @@ public class Buffer {
 		vacio= new Object ();
 		clientesTotal=pTotales; 
 	}
-	
+
 	public void enviarMensaje(Mensaje mensaje) {
 		// TODO Auto-generated method stub
 		synchronized (lleno) {
@@ -33,9 +33,12 @@ public class Buffer {
 		synchronized (this) { 
 			buff.add(mensaje);			
 		}
-
 		synchronized (vacio) {
-			vacio.notify();
+			try {
+				vacio.wait();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -46,12 +49,16 @@ public class Buffer {
 			if (buff.size()!=0) {
 				m = (Mensaje)buff.remove(0); 
 				m.responder();
+				System.out.println("Cliente: "+m.getCliente().getIdf()+" respuesta"+m.getContenido());
 				m.getCliente().notify();	
-				
-				lleno.notifyAll();
+				//lleno.notify();
 			}
 		}
 		
+//		synchronized(lleno)
+//		{ lleno.notifyAll();}
+
+
 		return m;
 	}
 
