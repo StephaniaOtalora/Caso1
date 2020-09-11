@@ -11,8 +11,7 @@ public class Servidor extends Thread{
 	}
 	
 	public void run() {
-		while(buff.darTotalClientes()>0) {
-			System.out.println("Servidor: "+id);
+		while(buff.getHayClientes()) {
 			buff.responderMensaje();
 			yield();
 		}

@@ -5,11 +5,8 @@ public class Mensaje {
 	
 	private int mensaje;
 	
-	private Cliente cliente;
-	
-	public Mensaje(int pMensaje, Cliente cliente) {
+	public Mensaje(int pMensaje) {
 		this.mensaje = pMensaje; 
-		this.cliente = cliente;
 	}
 
 	public int getContenido() {
@@ -17,10 +14,7 @@ public class Mensaje {
 	}
 
 	public void responder() {
-		mensaje ++;
+		mensaje++;
 	}
-	
-	public Cliente getCliente() {
-		return this.cliente; 
-	}
+
 }
