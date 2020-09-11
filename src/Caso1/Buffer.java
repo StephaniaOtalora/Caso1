@@ -2,8 +2,6 @@ package Caso1;
 
 import java.util.ArrayList;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 public class Buffer {
 
 	private ArrayList buff;
@@ -58,7 +56,7 @@ public class Buffer {
 			System.out.println("Capacidad responder: "+buff.size());
 			if(buff.size() == 0)
 			{
-				serv.yield();
+				return;
 			}	
 			m = (Mensaje) buff.remove(0); 
 			m.responder();
@@ -103,7 +101,6 @@ public class Buffer {
 	}
 
 	public synchronized int clientesTotales() {
-		// TODO Auto-generated method stub
 		System.out.println(clientesTotal);
 		return this.clientesTotal;
 	}
