@@ -11,9 +11,11 @@ public class Servidor extends Thread{
 	}
 	
 	public void run() {
-		while(buff.getHayClientes()) {
-			buff.responderMensaje();
-			yield();
+		
+		while(buff.getHayClientes()||buff.clientesTotales()>0) {
+			
+			buff.responderMensaje(this);
+			System.out.println("totales"+buff.clientesTotales());
 		}
 	}
 	

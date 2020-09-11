@@ -2,6 +2,8 @@ package Caso1;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 public class Buffer {
 
 	private ArrayList buff;
@@ -15,17 +17,20 @@ public class Buffer {
 		this.capacidad=capacidad;
 		this.buff= new ArrayList();
 		this.clientesTotal=pTotales;
-		this.hayClientes=false;
+		this.hayClientes=true;
 		this.clientesActuales=0;
 	}
 
 	public boolean enviarMensaje(Mensaje mensaje) {
 
 		boolean entro = false;
+		//		System.out.println(entro);
 		synchronized (this) {
-			if(buff.size()==capacidad)
+			System.out.println("size: "+buff.size()+"capacidad"+capacidad+" mensaje: "+mensaje.getContenido());
+			if(buff.size()>=capacidad)
 			{
 				try {
+					System.out.println("primer sinchronized");
 					return entro;
 				} catch (Exception e) {}
 			}
@@ -35,30 +40,37 @@ public class Buffer {
 			buff.add(mensaje);
 			entro=true;
 			try {
+				System.out.println("segundo sinchronized");
+				ingresarCliente();
 				mensaje.wait();
 			} catch (Exception e) {	}
 
 		}
-		
+		System.out.println(entro);
 		return entro;
 
 	}
 
-	public Mensaje responderMensaje() {
-		Mensaje m = null; 
+	public void responderMensaje(Servidor serv) {
+		Mensaje m;
 
 		synchronized(this) {
-			if (buff.size()!=0) {
-				m = (Mensaje)buff.remove(0); 
-				m.responder();
-				System.out.println("Respondio: "+m.getContenido());
-			}
+			System.out.println("Capacidad responder: "+buff.size());
+			if(buff.size() == 0)
+			{
+				serv.yield();
+			}	
+			m = (Mensaje) buff.remove(0); 
+			m.responder();
+			System.out.println("Respondio: "+m.getContenido());
 		}
+
 		synchronized(m)
 		{
-			m.notify();
+			if(m!=null) {
+				m.notify();
+			}
 		}
-		return m;
 	}
 
 	public synchronized boolean getHayClientes() {
@@ -66,20 +78,34 @@ public class Buffer {
 	}
 
 	public synchronized void terminoCliente() {
-		this.clientesActuales--;
-		if( clientesActuales == 0)
+		this.clientesTotal--;
+		if( clientesTotal == 0)
 		{
 			hayClientes = false;
 		}
 	}
-	
+
 	public synchronized void ingresarCliente()
 	{
-		clientesActuales++;
+
+		this.clientesActuales++;
 		if( clientesActuales == 1)
 		{
-			hayClientes = true;
+			this.hayClientes = true;
 		}
+
+
+	}
+
+	public synchronized int terminoEnvio()
+	{
+		return this.clientesActuales--;
+	}
+
+	public synchronized int clientesTotales() {
+		// TODO Auto-generated method stub
+		System.out.println(clientesTotal);
+		return this.clientesTotal;
 	}
 
 }

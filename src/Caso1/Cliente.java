@@ -13,16 +13,17 @@ public class Cliente extends Thread{
 		this.id=id;
 	}
 
-	public void run() {		
+	public void run() {	
+		System.out.println("Cliente: "+id+"Mensajes: "+numMensajes);
 		for(int i = 0; i<numMensajes; i++)
 		{
 			Mensaje mensaje= new Mensaje((int) (Math.random()*100+1));
 			boolean entro = false;
+			System.out.println("Cliente: "+id+"mensaje: "+mensaje.getContenido());
 			while (!entro){
 			entro = buff.enviarMensaje(mensaje);
-			yield();
 			}
-			System.out.println("Cliente: "+id+"mensaje: "+mensaje.getContenido());
+			
 		}		
 		buff.terminoCliente();
 	}
