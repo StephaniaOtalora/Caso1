@@ -1,7 +1,17 @@
 package Caso1;
-
+/**
+ * 
+ * @author Stephania Otalora
+ * @author Cristhian Forigua
+ *
+ */
 public class Main {
 
+	/**
+	 * Método main del proyecto. Se encarga de inicializar los threads de los clientes y de los servidores. Así mismo, 
+	 * inicializa el buffer que comparte tanto cliente como servidor. El cual es el mismo tanto para clientes como servidores.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		int capacidad = 6;
 		int pTotales = 3;
